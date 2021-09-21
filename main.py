@@ -36,7 +36,7 @@ class Student:
             print('Оценка лектора может быть только от 0 до 10')
 
     def __str__(self):
-        sep = ' '
+        sep = ', '
         course_progress = sep.join(self.courses_in_progress)
         course_finished = sep.join(self.finished_courses)
 
@@ -44,8 +44,22 @@ class Student:
                f'Фамилия: {self.surname} \n'
                f'Средняя оценка за лекции: {self.avg_grade()}\n'
                f'Курсы в процессе изучения: {course_progress}\n'
-               f'Завершенные курсы: {course_finished}')
+               f'Завершенные курсы: {course_finished}\n')
         return msg
+
+    def __lt__(self, other):
+        if self.avg_grade() == other.avg_grade():
+            msg = (
+                f'Средние оценки у студентов {self.name} {self.surname} и {other.name} {other.surname} одинаковы\n')
+            return msg
+        elif self.avg_grade() > other.avg_grade():
+            msg = (
+                    f'Средняя оценка у студента {self.name} {self.surname} выше, чем у студента {other.name} {other.surname}\n')
+            return msg
+        else:
+            msg = (
+                    f'Средняя оценка у студента {other.name} {other.surname} выше, чем у студента {self.name} {self.surname}\n')
+            return msg
 
 
 class Mentor:
@@ -81,22 +95,22 @@ class Lecturer(Mentor):
     def __str__(self):
         msg = (f'Имя: {self.name} \n'
                f'Фамилия: {self.surname} \n'
-               f'Средняя оценка за лекции: {self.avg_grade()}')
+               f'Средняя оценка за лекции: {self.avg_grade()}\n')
         return msg
 
     def __lt__(self, other):
         if self.avg_grade() == other.avg_grade():
             msg = (
-                f'Средние оценки у лекторов {self.name} {self.surname} и {other.name} {other.surname} одинаковы')
-            print(msg)
+                f'Средние оценки у лекторов {self.name} {self.surname} и {other.name} {other.surname} одинаковы\n')
+            return msg
         elif self.avg_grade() > other.avg_grade():
             msg = (
-                    f'Средняя оценка у лектора {self.name} {self.surname} выше, чем у лектора {other.name} {other.surname}')
-            print(msg)
+                    f'Средняя оценка у лектора {self.name} {self.surname} выше, чем у лектора {other.name} {other.surname}\n')
+            return msg
         else:
             msg = (
-                    f'Средняя оценка у лектора {other.name} {other.surname} выше, чем у лектора {self.name} {self.surname}')
-            print(msg)
+                    f'Средняя оценка у лектора {other.name} {other.surname} выше, чем у лектора {self.name} {self.surname}\n')
+            return msg
 
 
 class Reviewer(Mentor):
@@ -120,26 +134,109 @@ class Reviewer(Mentor):
 
     def __str__(self):
         msg = (f'Имя: {self.name}\n'
-               f'Фамилия: {self.surname}')
+               f'Фамилия: {self.surname}\n')
         return msg
 
 
-student_first = Student('My', 'Name', 'Gender')
-lecturer_first = Lecturer('My', 'Lecturer')
-reviewer_first = Reviewer('My', 'Reviewer')
-lecturer_second = Lecturer('Other', 'Lecturer')
+# Инициализация объектов
+first_student = Student('Roy', 'Pablo', 'Male')
+second_student = Student('Boy', 'Pablo', 'Male')
+first_lecturer = Lecturer('Chris', 'Lector')
+second_lecturer = Lecturer('Leon', 'Lecturer')
+first_reviewer = Reviewer('John', 'Review')
+second_reviewer = Reviewer('Jane', 'Reviewer')
 
-student_first.courses_in_progress += ['Python']
-student_first.finished_courses += ['Git']
-lecturer_first.courses_attached += ['Python']
-reviewer_first.courses_attached += ['Python']
-lecturer_second.courses_attached += ['Python']
-student_first.rate_lec(lecturer_first, 'Python', 10)
-student_first.rate_lec(lecturer_second, 'Python', 10)
+# Добавление атрибутов классов
+first_student.courses_in_progress.append('Python')
+first_student.courses_in_progress.append('C#')
+first_student.finished_courses.append('Git')
+second_student.courses_in_progress.append('Python')
+second_student.courses_in_progress.append('Git')
+second_student.finished_courses.append('C#')
 
-print(lecturer_first > lecturer_second)
-print(reviewer_first)
-print(lecturer_first)
-print(student_first)
-print(student_first.grades)
-print(lecturer_first.grades)
+first_lecturer.courses_attached.append('Python')
+first_lecturer.courses_attached.append('C#')
+second_lecturer.courses_attached.append('Git')
+second_lecturer.courses_attached.append('Python')
+
+first_reviewer.courses_attached.append('Python')
+first_reviewer.courses_attached.append('C#')
+second_reviewer.courses_attached.append('Python')
+second_reviewer.courses_attached.append('Git')
+
+# Наполняем атрибуты классов
+first_student.rate_lec(first_lecturer, 'Python', 9)
+first_student.rate_lec(first_lecturer, 'Python', 9)
+first_student.rate_lec(second_lecturer, 'Python', 8)
+first_student.rate_lec(first_lecturer,'C#', 7)
+first_student.rate_lec(first_lecturer,'C#', 10)
+second_student.rate_lec(second_lecturer, 'Git', 9)
+second_student.rate_lec(second_lecturer, 'Git', 10)
+
+first_reviewer.rate_student(first_student, 'Python', 8)
+first_reviewer.rate_student(first_student, 'Python', 8)
+first_reviewer.rate_student(first_student, 'C#', 8)
+second_reviewer.rate_student(first_student, 'Python', 8)
+second_reviewer.rate_student(second_student, 'Python', 6)
+second_reviewer.rate_student(second_student, 'Git', 7)
+second_reviewer.rate_student(second_student, 'Git', 9)
+
+# проверка методов
+print(first_student)
+print(second_student)
+print(first_lecturer)
+print(second_lecturer)
+print(first_reviewer)
+print(second_reviewer)
+print(first_lecturer > second_lecturer)
+print(first_student > second_student)
+
+
+def get_avg_students(first, second, course):
+    grade_first = int()
+    grade_second = int()
+    grade_average = int()
+    if course in first.courses_in_progress and course in second.courses_in_progress:
+        for name, grade in first.grades.items():
+            if name == course:
+                for value in grade:
+                    grade_first += value
+        grade_first = grade_first / len(first.grades[course])
+
+        for name, grade in second.grades.items():
+            if name == course:
+                for value in grade:
+                    grade_second += value
+        grade_second = grade_second / len(second.grades[course])
+        grade_average = (grade_first + grade_second) / 2
+        print(f'Средняя оценка студентов на курсе {course}: {grade_average}')
+    else:
+        print('У студентов нет совпадающих курсов')
+
+
+def get_avg_lecturers(first, second, course):
+    first_grade = int()
+    second_grade = int()
+    average_grade = int()
+    if course in first.courses_attached and course in second.courses_attached:
+        for name, grade in first.grades.items():
+            if name == course:
+                for value in grade:
+                    first_grade += value
+        first_grade = first_grade / len(first.grades[course])
+
+        for name, grade in second.grades.items():
+            if name == course:
+                for value in grade:
+                    second_grade += value
+        second_grade = second_grade / len(second.grades[course])
+        average_grade = (first_grade + second_grade) / 2
+        print(f'Средняя оценка лекторов на курсе {course}: {average_grade}')
+    else:
+        print('У лекторов нет совпадающих курсов')
+
+my_list = list()
+my_list.append(first_student)
+print(my_list)
+get_avg_students(first_student, second_student, 'Python')
+get_avg_lecturers(first_lecturer, second_lecturer, 'Python')
