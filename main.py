@@ -48,17 +48,21 @@ class Student:
         return msg
 
     def __lt__(self, other):
-        if self.avg_grade() == other.avg_grade():
-            msg = (
-                f'Средние оценки у студентов {self.name} {self.surname} и {other.name} {other.surname} одинаковы\n')
-            return msg
-        elif self.avg_grade() > other.avg_grade():
-            msg = (
-                    f'Средняя оценка у студента {self.name} {self.surname} выше, чем у студента {other.name} {other.surname}\n')
-            return msg
+        if isinstance(other, Student):
+            if self.avg_grade() == other.avg_grade():
+                msg = (
+                    f'Средние оценки у студентов {self.name} {self.surname} и {other.name} {other.surname} одинаковы\n')
+                return msg
+            elif self.avg_grade() > other.avg_grade():
+                msg = (
+                        f'Средняя оценка у студента {self.name} {self.surname} выше, чем у студента {other.name} {other.surname}\n')
+                return msg
+            else:
+                msg = (
+                        f'Средняя оценка у студента {other.name} {other.surname} выше, чем у студента {self.name} {self.surname}\n')
+                return msg
         else:
-            msg = (
-                    f'Средняя оценка у студента {other.name} {other.surname} выше, чем у студента {self.name} {self.surname}\n')
+            msg = f'{other.name} {other.surname} не является студентом!'
             return msg
 
 
@@ -99,17 +103,21 @@ class Lecturer(Mentor):
         return msg
 
     def __lt__(self, other):
-        if self.avg_grade() == other.avg_grade():
-            msg = (
-                f'Средние оценки у лекторов {self.name} {self.surname} и {other.name} {other.surname} одинаковы\n')
-            return msg
-        elif self.avg_grade() > other.avg_grade():
-            msg = (
-                    f'Средняя оценка у лектора {self.name} {self.surname} выше, чем у лектора {other.name} {other.surname}\n')
-            return msg
+        if isinstance(other, Lecturer):
+            if self.avg_grade() == other.avg_grade():
+                msg = (
+                    f'Средние оценки у лекторов {self.name} {self.surname} и {other.name} {other.surname} одинаковы\n')
+                return msg
+            elif self.avg_grade() > other.avg_grade():
+                msg = (
+                        f'Средняя оценка у лектора {self.name} {self.surname} выше, чем у лектора {other.name} {other.surname}\n')
+                return msg
+            else:
+                msg = (
+                        f'Средняя оценка у лектора {other.name} {other.surname} выше, чем у лектора {self.name} {self.surname}\n')
+                return msg
         else:
-            msg = (
-                    f'Средняя оценка у лектора {other.name} {other.surname} выше, чем у лектора {self.name} {self.surname}\n')
+            msg = f'{other.name} {other.surname} не является лектором!'
             return msg
 
 
@@ -235,8 +243,6 @@ def get_avg_lecturers(first, second, course):
     else:
         print('У лекторов нет совпадающих курсов')
 
-my_list = list()
-my_list.append(first_student)
-print(my_list)
+
 get_avg_students(first_student, second_student, 'Python')
 get_avg_lecturers(first_lecturer, second_lecturer, 'Python')
