@@ -238,3 +238,4 @@ list_of_students = [first_student, second_student]
 list_of_lecturers = [first_lecturer, second_lecturer]
 get_avg_students(list_of_students, 'Git')
 get_avg_lecturers(list_of_lecturers, 'Python')
+print('Hello, git!')
