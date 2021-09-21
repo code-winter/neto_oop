@@ -17,8 +17,11 @@ class Student:
         for course in average_grade:
             average_grade[course] = average_grade[course] / len(self.grades[course])
             avg_grade_total += average_grade[course]
-        avg_grade_total = avg_grade_total / len(average_grade)
-        return avg_grade_total
+        if avg_grade_total == 0:
+            return 0
+        else:
+            avg_grade_total = avg_grade_total / len(average_grade)
+            return avg_grade_total
 
     def rate_lec(self, lecturer, course, grade):
         if grade <= 10:
@@ -69,8 +72,11 @@ class Lecturer(Mentor):
         for course in average_grade:
             average_grade[course] = average_grade[course] / len(self.grades[course])
             avg_grade_total += average_grade[course]
-        avg_grade_total = avg_grade_total / len(average_grade)
-        return avg_grade_total
+        if avg_grade_total == 0:
+            return 0
+        else:
+            avg_grade_total = avg_grade_total / len(average_grade)
+            return avg_grade_total
 
     def __str__(self):
         msg = (f'Имя: {self.name} \n'
@@ -109,19 +115,16 @@ lecturer_first = Lecturer('My', 'Lecturer')
 reviewer_first = Reviewer('My', 'Reviewer')
 
 student_first.courses_in_progress += ['Python']
-student_first.courses_in_progress += ['Python1']
-student_first.courses_in_progress += ['Python2']
 student_first.finished_courses += ['Git']
 lecturer_first.courses_attached += ['Python']
-lecturer_first.courses_attached += ['Python1']
-lecturer_first.courses_attached += ['Python2']
-lecturer_first.courses_attached += ['Python22']
 reviewer_first.courses_attached += ['Python']
 
 student_first.rate_lec(lecturer_first, 'Python', 10)
-student_first.rate_lec(lecturer_first, 'Python1', 10)
+student_first.rate_lec(lecturer_first, 'Python', 10)
 student_first.rate_lec(lecturer_first, 'Python', 8)
 reviewer_first.rate_student(student_first, 'Python', 10)
+reviewer_first.rate_student(student_first, 'Python', 10)
+reviewer_first.rate_student(student_first, 'Python', 1)
 
 lecturer_first.avg_grade()
 
