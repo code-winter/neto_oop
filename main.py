@@ -174,10 +174,10 @@ second_reviewer.courses_attached.append('Git')
 
 # Наполняем атрибуты классов
 first_student.rate_lec(first_lecturer, 'Python', 9)
-first_student.rate_lec(first_lecturer, 'Python', 9)
+first_student.rate_lec(first_lecturer, 'Python', 10)
 first_student.rate_lec(second_lecturer, 'Python', 8)
-first_student.rate_lec(first_lecturer,'C#', 7)
-first_student.rate_lec(first_lecturer,'C#', 10)
+first_student.rate_lec(first_lecturer, 'C#', 7)
+first_student.rate_lec(first_lecturer, 'C#', 10)
 second_student.rate_lec(second_lecturer, 'Git', 9)
 second_student.rate_lec(second_lecturer, 'Git', 10)
 
@@ -200,49 +200,41 @@ print(first_lecturer > second_lecturer)
 print(first_student > second_student)
 
 
-def get_avg_students(first, second, course):
-    grade_first = int()
-    grade_second = int()
-    grade_average = int()
-    if course in first.courses_in_progress and course in second.courses_in_progress:
-        for name, grade in first.grades.items():
-            if name == course:
-                for value in grade:
-                    grade_first += value
-        grade_first = grade_first / len(first.grades[course])
-
-        for name, grade in second.grades.items():
-            if name == course:
-                for value in grade:
-                    grade_second += value
-        grade_second = grade_second / len(second.grades[course])
-        grade_average = (grade_first + grade_second) / 2
-        print(f'Средняя оценка студентов на курсе {course}: {grade_average}')
-    else:
-        print('У студентов нет совпадающих курсов')
+def get_avg_students(stud_list, course):
+    grade_list = list()
+    grade_avg = int()
+    grade_total = int()
+    for student in stud_list:
+        if course in student.courses_in_progress:
+            for name, grade in student.grades.items():
+                if name == course:
+                    for value in grade:
+                        grade_avg += value
+            grade_list.append(grade_avg / len(student.grades[course]))
+            grade_avg = 0
+    for grades in grade_list:
+        grade_total += grades
+    print(f'Средняя оценка студентов на курсе {course}: {grade_total / len(grade_list)}')
 
 
-def get_avg_lecturers(first, second, course):
-    first_grade = int()
-    second_grade = int()
-    average_grade = int()
-    if course in first.courses_attached and course in second.courses_attached:
-        for name, grade in first.grades.items():
-            if name == course:
-                for value in grade:
-                    first_grade += value
-        first_grade = first_grade / len(first.grades[course])
-
-        for name, grade in second.grades.items():
-            if name == course:
-                for value in grade:
-                    second_grade += value
-        second_grade = second_grade / len(second.grades[course])
-        average_grade = (first_grade + second_grade) / 2
-        print(f'Средняя оценка лекторов на курсе {course}: {average_grade}')
-    else:
-        print('У лекторов нет совпадающих курсов')
+def get_avg_lecturers(lect_list, course):
+    grade_list = list()
+    grade_avg = int()
+    grade_total = int()
+    for lecturer in lect_list:
+        if course in lecturer.courses_attached:
+            for name, grade in lecturer.grades.items():
+                if name == course:
+                    for value in grade:
+                        grade_avg += value
+            grade_list.append(grade_avg / len(lecturer.grades[course]))
+            grade_avg = 0
+    for grades in grade_list:
+        grade_total += grades
+    print(f'Средняя оценка лекторов на курсе {course}: {grade_total / len(grade_list)}')
 
 
-get_avg_students(first_student, second_student, 'Python')
-get_avg_lecturers(first_lecturer, second_lecturer, 'Python')
+list_of_students = [first_student, second_student]
+list_of_lecturers = [first_lecturer, second_lecturer]
+get_avg_students(list_of_students, 'Git')
+get_avg_lecturers(list_of_lecturers, 'Python')
